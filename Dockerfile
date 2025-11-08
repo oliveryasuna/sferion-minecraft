@@ -15,7 +15,7 @@ ENV MEMORY_MIN=2G
 ENV MEMORY_MAX=16G
 ENV MC_VERSION=1.21.1
 ENV NEOFORGE_VERSION=21.1.214
-ENV EULA=FALSE
+ENV EULA=TRUE
 
 # Download NeoForge installer
 RUN wget -O neoforge-installer.jar \
