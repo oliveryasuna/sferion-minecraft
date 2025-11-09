@@ -1,29 +1,18 @@
-version: '3.8'
-
 services:
-  minecraft:
-    build: .
-    container_name: minecraft
+  server:
+    build:
+      context: ./services/server
+      dockerfile: Dockerfile
+      args:
+        MEMORY_MIN: 4G
+        MEMORY_MAX: 16G
+        EULA: "true"
     ports:
       - "25565:25565"
-    environment:
-      - EULA=TRUE
-      - MEMORY_MIN=4G
-      - MEMORY_MAX=16G
-      - MC_VERSION=1.21.1
-      - NEOFORGE_VERSION=21.1.214
     volumes:
-      - ./data/world:/minecraft/world
-      - ./data/mods:/minecraft/mods
-      - ./data/config:/minecraft/config
-      - ./data/logs:/minecraft/logs
-      - ./data/backups:/minecraft/backups
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 16G
-        reservations:
-          memory: 4G
+      - minecraft:/data
     stdin_open: true
     tty: true
+    restart: unless-stopped
+volumes:
+  minecraft:
