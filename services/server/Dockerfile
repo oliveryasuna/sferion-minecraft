@@ -10,6 +10,7 @@ ARG MAX_PLAYERS=10
 ARG ENABLE_COMMAND_BLOCK=false
 ARG VIEW_DISTANCE=32
 ARG OPS
+ARG CF_API_KEY
 
 # Image configuration
 ENV MEMORY=${MEMORY_MIN}
@@ -22,8 +23,8 @@ ENV VERSION=${VERSION}
 ENV FORGE_VERSION=${FORGE_VERSION}
 
 # Mods
-ENV GENERIC_PACK=./_modpacks/ATM9.zip
-ENV MODS=./_mods/worldedit-mod-7.2.15.jar,./_mods/Chunky-1.3.146.jar
+ENV GENERIC_PACK=./extra/modpacks/ATM9.zip
+# ENV MODS=/extra/mods/worldedit-mod-7.2.15.jar,/extra/mods/Chunky-1.3.146.jar
 
 # Server configuration
 ENV EULA=${EULA}
@@ -33,7 +34,7 @@ ENV SPAWN_PROTECTION=16
 ENV VIEW_DISTANCE=${VIEW_DISTANCE}
 ENV OPS=${OPS}
 
-COPY --chown=minecraft:minecraft . /data
+COPY --chown=minecraft:minecraft ./ /data
 
 VOLUME ["/data"]
 WORKDIR /data

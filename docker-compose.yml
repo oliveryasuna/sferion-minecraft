@@ -8,6 +8,7 @@ services:
         MEMORY_MAX: 16G
         EULA: "true"
         OPS: top_tier_couch
+        CF_API_KEY: ${CF_API_KEY}
     ports:
       - "25565:25565"
     volumes:
