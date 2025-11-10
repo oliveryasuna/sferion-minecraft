@@ -1,43 +1,24 @@
-ARG TAG=stable-java21
-FROM itzg/minecraft-server:${TAG}
+# syntax=docker/dockerfile:1
 
-ARG MEMORY_MIN=4G
-ARG MEMORY_MAX=16G
-ARG EULA=false
-ARG VERSION=1.20.1
-ARG FORGE_VERSION=47.4.0
-ARG MAX_PLAYERS=10
-ARG ENABLE_COMMAND_BLOCK=false
-ARG VIEW_DISTANCE=32
-ARG OPS
-ARG CF_API_KEY
+FROM eclipse-temurin:17-jdk
 
-# Image configuration
-ENV MEMORY=${MEMORY_MIN}
-ENV MAX_MEMORY=${MEMORY_MAX}
-ENV ENABLE_ROLLING_LOGS=true
-ENV USE_AIKAR_FLAGS=true
-ENV JVM_DD_OPTS="disable.watchdog:true"
-ENV TYPE=FORGE
-ENV VERSION=${VERSION}
-ENV FORGE_VERSION=${FORGE_VERSION}
+RUN apt-get update && \
+    apt-get install -y curl unzip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Mods
-ENV GENERIC_PACK=./extra/modpacks/ATM9.zip
-# ENV MODS=/extra/mods/worldedit-mod-7.2.15.jar,/extra/mods/Chunky-1.3.146.jar
+RUN adduser --uid 99 --gid 100 --home /data --disabled-password minecraft
 
-# Server configuration
-ENV EULA=${EULA}
-ENV MAX_PLAYERS=${MAX_PLAYERS}
-ENV ENABLE_COMMAND_BLOCK=${ENABLE_COMMAND_BLOCK}
-ENV SPAWN_PROTECTION=16
-ENV VIEW_DISTANCE=${VIEW_DISTANCE}
-ENV OPS=${OPS}
+COPY assets /assets
 
-COPY --chown=minecraft:minecraft ./ /data
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-VOLUME ["/data"]
+USER minecraft
+
+VOLUME /data
 WORKDIR /data
 
-EXPOSE 25565
-CMD ["/start"]
+EXPOSE 25565/tcp
+
+CMD ["/start.sh"]

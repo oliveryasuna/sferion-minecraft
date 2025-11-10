@@ -3,18 +3,17 @@ services:
     build:
       context: ./services/server
       dockerfile: Dockerfile
-      args:
-        MEMORY_MIN: 4G
-        MEMORY_MAX: 16G
-        EULA: "true"
-        OPS: top_tier_couch
-        CF_API_KEY: ${CF_API_KEY}
     ports:
       - "25565:25565"
     volumes:
       - minecraft:/data
     stdin_open: true
     tty: true
-    restart: unless-stopped
+    # restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 16G
 volumes:
   minecraft:
