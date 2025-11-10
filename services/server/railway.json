@@ -1,7 +1,11 @@
 {
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "services/server/Dockerfile"
+    "dockerfilePath": "services/server/Dockerfile",
+    "watchPatterns": [
+      ".dockerignore",
+      "services/server/**/*"
+    ]
   },
   "deploy": {}
 }
