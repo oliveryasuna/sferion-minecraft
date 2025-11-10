@@ -92,6 +92,7 @@ set_server_properties() {
   [[ -n "$VIEW_DISTANCE" ]] && set_property "view-distance" "$VIEW_DISTANCE"
   [[ -n "$ENABLE_RCON" ]] && set_property "enable-rcon" "$ENABLE_RCON"
   [[ -n "$RCON_PASSWORD" ]] && set_property "rcon.password" "$RCON_PASSWORD"
+  set_property "white-list" "true"
   echo "Server properties set"
 }
 
