@@ -3,17 +3,20 @@ services:
     build:
       context: ./services/server
       dockerfile: Dockerfile
+    environment:
+      EULA: true
+      MEMORY_MIN: 8G
+      MEMORY_MAX: 16G
     ports:
       - "25565:25565"
     volumes:
       - minecraft:/data
     stdin_open: true
     tty: true
-    # restart: unless-stopped
     deploy:
       resources:
         limits:
           cpus: 1
-          memory: 16G
+          memory: 20G
 volumes:
   minecraft:

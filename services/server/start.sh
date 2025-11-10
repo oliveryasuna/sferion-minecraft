@@ -5,7 +5,7 @@ set -e
 cd /data
 
 echo "Checking EULA..."
-if ! [[ "$EULA" = "false" ]]; then
+if [[ "$EULA" = "true" ]]; then
   echo "eula=true" > eula.txt
   echo "EULA accepted"
 else
@@ -41,6 +41,20 @@ if ! [[ -f "Server-Files-1.1.1.zip" ]]; then
 else
   echo "ATM9 already installed"
 fi
+
+echo "Setting log4j configuration..."
+if ! grep -q "log4j.configurationFile" user_jvm_args.txt 2>/dev/null; then
+  sed -i -e '$a\' user_jvm_args.txt 2>/dev/null || true
+  echo "-Dlog4j.configurationFile=log4j2.xml" >> user_jvm_args.txt
+  echo "Added log4j config to user_jvm_args.txt"
+else
+  echo "Log4j configuration already set"
+fi
+
+echo "Setting memory..."
+sed -i "s/^-Xmx.*/-Xmx${MEMORY_MAX}/" user_jvm_args.txt
+sed -i "s/^-Xms.*/-Xms${MEMORY_MIN}/" user_jvm_args.txt
+echo "Memory set"
 
 echo "Copying assets..."
 cp -rn /assets/* .
