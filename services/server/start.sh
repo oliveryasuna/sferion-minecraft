@@ -40,6 +40,12 @@ install_atm9() {
     echo "Installing Forge..."
     java -jar "$FORGE_INSTALLER" --installServer
     echo "Forge installed"
+
+    echo "Removing some mods..."
+    echo "Removing MrCrayfish's Furniture Mod..."
+    rm -rf mods/cfm-forge-1.20.1-7.0.0-pre36.jar
+    echo "MrCrayfish's Furniture Mod removed"
+    echo "Mods removed"
   else
     echo "ATM9 already installed"
   fi
