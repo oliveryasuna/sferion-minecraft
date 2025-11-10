@@ -68,11 +68,17 @@ setup_log4j() {
   fi
 }
 
-setup_memory() {
-  echo "Setting memory..."
+setup_jvm_args() {
+  echo "Setting JVM args..."
+
   sed -i "s/^-Xmx.*/-Xmx${MEMORY_MAX}/" user_jvm_args.txt
   sed -i "s/^-Xms.*/-Xms${MEMORY_MIN}/" user_jvm_args.txt
-  echo "Memory set"
+
+  sed -i '/^-XX:+ExitOnOutOfMemoryError$/d' user_jvm_args.txt
+  [ "$EXIT_ON_OOM" = "true" ] && echo "-XX:+ExitOnOutOfMemoryError" >> user_jvm_args.txt
+
+  echo "JVM args set"
+  cat user_jvm_args.txt
 }
 
 set_server_properties() {
@@ -112,7 +118,7 @@ check_eula
 install_atm9
 copy_assets
 setup_log4j
-setup_memory
+setup_jvm_args
 set_server_properties
 run_server
 

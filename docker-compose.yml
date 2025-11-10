@@ -7,6 +7,7 @@ services:
       EULA: true
       MEMORY_MIN: 8G
       MEMORY_MAX: 16G
+      EXIT_ON_OOM: true
       MOTD: "Who's the best boss?"
       DIFFICULTY: "normal"
       MAX_PLAYERS: 10
