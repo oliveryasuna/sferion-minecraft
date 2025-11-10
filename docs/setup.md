@@ -5,12 +5,14 @@ Do you find yourself bored of work? Is Oliver working you too hard?
 Then look no further!
 Waste your life away in a Minecraft server with your colleagues (and pretend they are your friends)!
 
+<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTI2dG9oamljdWgwaXAxdGlkcXQxMDRxZGZxaHRzdXIyNGEwajE4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rAZEnOu0KHQK4/giphy.gif"/>
+
 ## All the Mods 9
 
 We're using All the Mods 9 (ATM9) as the base modpack.
 Read more about it here: https://allthemods.github.io/alltheguides/atm9/.
 
-But I've added some more mods, bringing the total to a whopping 454 mods!
+But I've added some more mods, bringing the total to a whopping 450 mods!
 
 ## Installation
 
@@ -36,7 +38,6 @@ But I've added some more mods, bringing the total to a whopping 454 mods!
       - [Explorer's Compass](https://www.curseforge.com/minecraft/mc-mods/explorers-compass/files/4712194)
       - [Sky Villages](https://www.curseforge.com/minecraft/mc-mods/sky-villages-forge/files/5401804)
       - [Citadel](https://www.curseforge.com/minecraft/mc-mods/citadel/files/6702068)
-      - [Alex's Mobs](https://www.curseforge.com/minecraft/mc-mods/alexs-mobs/files/5698791)
       - [Rats](https://www.curseforge.com/minecraft/mc-mods/rats/files/5904296)
       - [Ice and Fire: Dragons](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons/files/5633453)
       - [The Graveyard](https://www.curseforge.com/minecraft/mc-mods/the-graveyard-forge/files/5114579)
@@ -92,6 +93,10 @@ I suggest changing "Hotbar Swapper" to `Y`, and keep the default "Zoom" key (`Z`
 
 Good luck...
 
-### My Potato Computer Caught On Fire and Exploded My Toes Off
+### My Potato Computer Caught on Fire and Exploded My Toes Clean Off
 
 Sounds like a *you* problem...
+
+### My Potato Computer Caught on Fire and Exploded My Toes Grusomely Off
+
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2FteGl2MzFsN2thenVhMjlnNGc2ZDZ6NXF5cG1xd2s4cjR5bnhuZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xuDHhHcCR0rew/giphy.gif"/>
