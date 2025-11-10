@@ -1,4 +1,3 @@
-<!-- https://github.com/itzg/docker-minecraft-server/blob/master/files/log4j2.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
@@ -13,14 +12,14 @@
             <Policies>
                 <!-- Based on filePattern resolution, so daily -->
                 <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="100 MB" />
+                <SizeBasedTriggeringPolicy size="50 MB" />
                 <OnStartupTriggeringPolicy />
             </Policies>
             <DefaultRolloverStrategy>
                 <Delete basePath="logs">
                     <IfFileName glob="*.log.gz" />
-                    <IfLastModified age="7d" />
-                    <IfAccumulatedFileCount exceeds="20"/>
+                    <IfLastModified age="30d" />
+                    <IfAccumulatedFileCount exceeds="50"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingRandomAccessFile>
