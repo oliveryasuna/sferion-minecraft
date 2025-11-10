@@ -16,7 +16,7 @@ RUN chmod +x /start.sh
 
 USER minecraft
 
-VOLUME /data
+# VOLUME /data
 WORKDIR /data
 
 EXPOSE 25565/tcp
