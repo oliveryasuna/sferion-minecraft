@@ -53,7 +53,7 @@ install_atm9() {
 
 copy_assets() {
   echo "Copying assets..."
-  cp -rn /assets/* .
+  cp -r --update=none /assets/* .
   echo "Assets copied"
 }
 
