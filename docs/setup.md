@@ -40,10 +40,6 @@ But I've added some more mods, bringing the total to a whopping 454 mods!
       - [Rats](https://www.curseforge.com/minecraft/mc-mods/rats/files/5904296)
       - [Ice and Fire: Dragons](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons/files/5633453)
       - [The Graveyard](https://www.curseforge.com/minecraft/mc-mods/the-graveyard-forge/files/5114579)
-      - [Puzzles Lib](https://www.curseforge.com/minecraft/mc-mods/puzzles-lib/files/6918565)
-      - [Mutant Monsters](https://www.curseforge.com/minecraft/mc-mods/mutant-monsters/files/5107399)
-      - [Ender Zoology](https://www.curseforge.com/minecraft/mc-mods/ender-zoology/files/5751720)
-      - [Illager Invasion](https://www.curseforge.com/minecraft/mc-mods/illager-invasion/files/6192869)
       - [Storage Drawers](https://www.curseforge.com/minecraft/mc-mods/storage-drawers/files/6994481)
       - [Collective](https://www.curseforge.com/minecraft/mc-mods/collective/files/7148968)
       - [Villager Names](https://www.curseforge.com/minecraft/mc-mods/villager-names/files/6184881)
@@ -53,6 +49,11 @@ But I've added some more mods, bringing the total to a whopping 454 mods!
 <!-- TODO: Datpacks? -->
 
 ## Extra
+
+### Patience
+
+If your potato computer is struggling, be patient.
+Minecraft just may take a while to load.
 
 ### Fuzzy Fix
 
@@ -64,12 +65,33 @@ Install these mods:
 - [Chloride](https://www.curseforge.com/minecraft/mc-mods/chloride/files/6615986)
 - [Rubidium Extra](https://www.curseforge.com/minecraft/mc-mods/rubidium-extra/files/6101745)
 
+If that doesn't help, try reducing your render distance.
+
+Furthermore, you can tweak other video settings.
+Mouse over a setting to see its effect on performance.
+
 ### Suggested Mods
 
 - [Skin Layers 3D](https://www.curseforge.com/minecraft/mc-mods/skin-layers-3d/files/7091094) - Client-side only
 - [Enchantment Descriptions](https://www.curseforge.com/minecraft/mc-mods/enchantment-descriptions/files/5855251)
 - [Forge Config Screens](https://www.curseforge.com/minecraft/mc-mods/config-menus-forge/files/4672356) - Client-side only
 
+### 4K Display
+
+I suggest changing your GUI Scale to 3x.
+
 ### JEI Configuration
 
 To edit JEI settings in-game, you'll need to install [Configured](https://www.curseforge.com/minecraft/mc-mods/configured/files/5180900).
+
+### Zoom Keymap Conflict
+
+I suggest changing "Hotbar Swapper" to `Y`, and keep the default "Zoom" key (`Z`)
+
+### Shaders
+
+Good luck...
+
+### My Potato Computer Caught On Fire and Exploded My Toes Off
+
+Sounds like a *you* problem...
