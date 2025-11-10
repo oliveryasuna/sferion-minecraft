@@ -17,35 +17,10 @@ check_eula() {
 
 install_atm9() {
   echo "Checking for ATM9..."
-  if ! [[ -f "Server-Files-1.1.1.zip" ]]; then
-    echo "Downloading ATM9..."
-    curl -Lo "Server-Files-1.1.1.zip" "https://edge.forgecdn.net/files/7097/957/Server-Files-1.1.1.zip" || exit 2
-    echo "ATM9 downloaded"
-
-    echo "Unzipping ATM9..."
-    unzip -u -o "Server-Files-1.1.1.zip" -d /data
-    if [[ -d "Server-Files-1.1.1" ]]; then
-      mv Server-Files-1.1.1/* .
-    fi
-    echo "ATM9 unzipped"
-
-    echo "Finding Forge installer..."
-    FORGE_INSTALLER=$(find . -maxdepth 1 -name "forge-*-installer.jar" -type f | head -n 1)
-    if [[ -z "$FORGE_INSTALLER" ]]; then
-      echo "Forge installer not found"
-      exit 1
-    fi
-    echo "Forge installer found"
-
-    echo "Installing Forge..."
-    java -jar "$FORGE_INSTALLER" --installServer
-    echo "Forge installed"
-
-    echo "Removing some mods..."
-    echo "Removing MrCrayfish's Furniture Mod..."
-    rm -rf mods/cfm-forge-1.20.1-7.0.0-pre36.jar
-    echo "MrCrayfish's Furniture Mod removed"
-    echo "Mods removed"
+  if ! [[ -f "run.sh" ]]; then
+    echo "Copying server files from image..."
+    cp -r /server-files/* /data/
+    echo "Server files copied"
   else
     echo "ATM9 already installed"
   fi
@@ -76,6 +51,11 @@ setup_jvm_args() {
 
   sed -i '/^-XX:+ExitOnOutOfMemoryError$/d' user_jvm_args.txt
   [ "$EXIT_ON_OOM" = "true" ] && echo "-XX:+ExitOnOutOfMemoryError" >> user_jvm_args.txt
+
+  if ! grep -q "jdk.incubator.vector" user_jvm_args.txt 2>/dev/null; then
+    sed -i -e '$a\' user_jvm_args.txt 2>/dev/null || true
+    echo "--add-modules=jdk.incubator.vector" >> user_jvm_args.txt
+  fi
 
   echo "JVM args set"
   cat user_jvm_args.txt
