@@ -14,7 +14,6 @@ services:
       VIEW_DISTANCE: 32
     ports:
       - "25565:25565"
-      - "25575:25575"
     volumes:
       - minecraft:/data
     stdin_open: true
