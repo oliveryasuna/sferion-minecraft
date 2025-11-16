@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     environment:
       EULA: true
-      MEMORY_MIN: 8G
-      MEMORY_MAX: 16G
+      MEMORY_MIN: 20G
+      MEMORY_MAX: 32G
       EXIT_ON_OOM: true
       MOTD: "Who's the best boss?"
       DIFFICULTY: "normal"
@@ -14,14 +14,10 @@ services:
       VIEW_DISTANCE: 32
     ports:
       - "25565:25565"
+      - "25575:25575"
     volumes:
       - minecraft:/data
     stdin_open: true
     tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: 1
-          memory: 20G
 volumes:
   minecraft:
