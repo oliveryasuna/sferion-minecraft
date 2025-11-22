@@ -1,0 +1,30 @@
+services:
+  server:
+    # container_name: minecraft-server
+    build:
+      context: ./services/server
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    ports:
+      - "25565:25565"
+    volumes:
+      - minecraft:/data
+    # restart: unless-stopped
+    restart: no
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 22G
+        reservations:
+          memory: 16G
+    networks:
+      - minecraft
+
+networks:
+  minecraft:
+    driver: bridge
+
+volumes:
+  minecraft:

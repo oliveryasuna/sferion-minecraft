@@ -6,8 +6,10 @@ cd /data
 
 check_eula() {
   echo "Checking EULA..."
-  if [[ "$EULA" = "true" ]]; then
+
+  if [[ "$MC_EULA" = "true" ]]; then
     echo "eula=true" > eula.txt
+
     echo "EULA accepted"
   else
     echo "EULA not accepted"
@@ -15,88 +17,119 @@ check_eula() {
   fi
 }
 
-install_atm9() {
-  echo "Checking for ATM9..."
+copy_atm9() {
+  echo "Copying ATM9..."
+
   if ! [[ -f "run.sh" ]]; then
-    echo "Copying server files from image..."
-    cp -r /server-files/* /data/
-    echo "Server files copied"
+    cp -r /tmp/server-files/* /data/
+
+    echo "ATM9 copied"
   else
-    echo "ATM9 already installed"
+    echo "ATM9 already copied"
   fi
 }
 
 copy_assets() {
   echo "Copying assets..."
-  cp -r --update=none /assets/* .
+
+  cp -r --update=none /tmp/assets/* .
+
   echo "Assets copied"
 }
 
-setup_log4j() {
-  echo "Setting log4j configuration..."
-  if ! grep -q "log4j.configurationFile" user_jvm_args.txt 2>/dev/null; then
-    sed -i -e '$a\' user_jvm_args.txt 2>/dev/null || true
-    echo "-Dlog4j.configurationFile=log4j2.xml" >> user_jvm_args.txt
-    echo "Added log4j config to user_jvm_args.txt"
-  else
-    echo "Log4j configuration already set"
-  fi
-}
+generate_whitelist() {
+  echo "Generating whitelist..."
 
-setup_jvm_args() {
-  echo "Setting JVM args..."
-
-  sed -i "s/^-Xmx.*/-Xmx${MEMORY_MAX}/" user_jvm_args.txt
-  sed -i "s/^-Xms.*/-Xms${MEMORY_MIN}/" user_jvm_args.txt
-
-  sed -i '/^-XX:+ExitOnOutOfMemoryError$/d' user_jvm_args.txt
-  [ "$EXIT_ON_OOM" = "true" ] && echo "-XX:+ExitOnOutOfMemoryError" >> user_jvm_args.txt
-
-  if ! grep -q "jdk.incubator.vector" user_jvm_args.txt 2>/dev/null; then
-    sed -i -e '$a\' user_jvm_args.txt 2>/dev/null || true
-    echo "--add-modules=jdk.incubator.vector" >> user_jvm_args.txt
+  if [[ -z "$MC_WHITELIST" ]]; then
+    echo "MC_WHITELIST not set, skipping whitelist generation"
+    return
   fi
 
-  echo "JVM args set"
-  cat user_jvm_args.txt
+  IFS=',' read -ra USERNAMES <<< "$MC_WHITELIST"
+  /tmp/scripts/generate-whitelist.sh "${USERNAMES[@]}" > whitelist.json
+
+  echo "Whitelist generated"
+  cat whitelist.json
 }
 
-set_server_properties() {
-  set_property() {
-    local key="$1"
-    local value="$2"
-    local file="${3:-server.properties}"
+generate_ops() {
+  echo "Generating ops..."
 
-    if grep -q "^${key}=" "$file" 2>/dev/null; then
-      # Property exists, replace it
-      sed -i "s|^${key}=.*|${key}=${value}|" "$file"
-    else
-      # Property doesn't exist, append it
-      echo "${key}=${value}" >> "$file"
+  if [[ -z "$MC_OPS" ]]; then
+    echo "MC_OPS not set, skipping ops generation"
+    return
+  fi
+
+  IFS=',' read -ra USERNAMES <<< "$MC_OPS"
+  /tmp/scripts/generate-ops.sh "${USERNAMES[@]}" > ops.json
+
+  echo "Ops generated"
+  echo ops.json
+}
+
+update_server_properties() {
+  echo "Updating server properties..."
+
+  # Collect all MC_SERVER_PROP__* environment variables
+  PROPS=()
+  while IFS='=' read -r name value; do
+    if [[ "$name" =~ ^MC_SERVER_PROP__(.+)$ ]]; then
+      # Extract key and convert underscores to dashes
+      key="${BASH_REMATCH[1]}"
+      key="${key//_/-}"
+      PROPS+=("${key}=${value}")
     fi
-  }
+  done < <(env)
 
-  echo "Setting server properties..."
-  [[ -n "$LEVEL_SEED" ]] && set_property "level-seed" "$LEVEL_SEED"
-  [[ -n "$MOTD" ]] && set_property "motd" "$MOTD"
-  [[ -n "$DIFFICULTY" ]] && set_property "difficulty" "$DIFFICULTY"
-  [[ -n "$MAX_PLAYERS" ]] && set_property "max-players" "$MAX_PLAYERS"
-  [[ -n "$VIEW_DISTANCE" ]] && set_property "view-distance" "$VIEW_DISTANCE"
-  set_property "white-list" "true"
-  echo "Server properties set"
+  if [[ ${#PROPS[@]} -eq 0 ]]; then
+    echo "No MC_SERVER_PROP__* variables set, using default server.properties"
+    return
+  fi
+
+  /tmp/scripts/update-server-properties.sh -i server.properties "${PROPS[@]}" > server.properties.tmp
+  mv server.properties.tmp server.properties
+
+  echo "Server properties updated"
+  cat server.properties
+}
+
+update_jvm_args() {
+  echo "Updating JVM args..."
+
+  # Collect all MC_JVM_ARG__* environment variables
+  ARGS=()
+  while IFS='=' read -r name value; do
+    if [[ "$name" =~ ^MC_JVM_ARG__(.+)$ ]]; then
+      # Extract key and use value as the full arg
+      ARGS+=("$value")
+    fi
+  done < <(env)
+
+  if [[ ${#ARGS[@]} -eq 0 ]]; then
+    echo "No MC_JVM_ARG__* variables set, using default user_jvm_args.txt"
+    return
+  fi
+
+  /tmp/scripts/update-jvm-args.sh -i user_jvm_args.txt "${ARGS[@]}" > user_jvm_args.txt.tmp
+  mv user_jvm_args.txt.tmp user_jvm_args.txt
+
+  echo "JVM args updated"
+  cat user_jvm_args.txt
 }
 
 run_server() {
   echo "Running server..."
+
   chmod 755 run.sh
   ./run.sh
 }
 
 check_eula
-install_atm9
+copy_atm9
 copy_assets
-setup_log4j
-setup_jvm_args
-set_server_properties
+generate_whitelist
+generate_ops
+update_server_properties
+update_jvm_args
 run_server
 
