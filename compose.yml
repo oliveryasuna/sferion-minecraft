@@ -1,6 +1,5 @@
 services:
   server:
-    # container_name: minecraft-server
     build:
       context: ./services/server
       dockerfile: Dockerfile
@@ -9,9 +8,9 @@ services:
     ports:
       - "25565:25565"
     volumes:
-      - minecraft:/data
-    # restart: unless-stopped
-    restart: no
+      # - minecraft:/data
+      - ./services/server/data:/data
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -26,5 +25,5 @@ networks:
   minecraft:
     driver: bridge
 
-volumes:
-  minecraft:
+# volumes:
+#   minecraft:
