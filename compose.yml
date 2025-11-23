@@ -19,13 +19,14 @@ services:
           memory: 16G
 
   production:
-    image: ${IMAGE_NAME}
+    image: ghcr.io/oliveryasuna/sferion-minecraft:0.0.5
     profiles:
       - production
     env_file:
       - ./.env-production
     ports:
       - "25565:25565"
+      - "25575:25575"
     volumes:
       - ./data:/data
     restart: unless-stopped

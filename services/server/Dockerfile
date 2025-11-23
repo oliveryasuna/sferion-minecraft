@@ -76,7 +76,7 @@ ENV MC_WHITELIST=""
 EXPOSE 25565/tcp
 
 # Healthcheck to check if server is running and accepting connections
-HEALTHCHECK --interval=30s --timeout=10s --start-period=200s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=500s --retries=3 \
     CMD nc -z localhost 25565 || exit 1
 
 # Start server
