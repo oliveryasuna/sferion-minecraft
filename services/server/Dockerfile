@@ -42,7 +42,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create user
-RUN adduser --uid 1003 --gid 1003 --home /data --disabled-password minecraft
+RUN groupadd -g 1003 minecraft && \
+    adduser --uid 1003 --gid 1003 --home /data --disabled-password minecraft
 
 # Copy files from builder stage
 COPY --from=builder --chown=minecraft:users /tmp/server-files /tmp/server-files
