@@ -1,5 +1,5 @@
 services:
-  server:
+  local:
     build:
       context: ./services/server
       dockerfile: Dockerfile
@@ -8,7 +8,6 @@ services:
     ports:
       - "25565:25565"
     volumes:
-      # - minecraft:/data
       - ./services/server/data:/data
     restart: unless-stopped
     deploy:
@@ -18,12 +17,15 @@ services:
           memory: 22G
         reservations:
           memory: 16G
-    networks:
-      - minecraft
 
-networks:
-  minecraft:
-    driver: bridge
-
-# volumes:
-#   minecraft:
+  production:
+    image: ${IMAGE_NAME}
+    profiles:
+      - production
+    env_file:
+      - ./.env-production
+    ports:
+      - "25565:25565"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
