@@ -22,7 +22,10 @@ services:
     image: ghcr.io/oliveryasuna/sferion-minecraft:0.0.5
     profiles:
       - production
+    stdin_open: true
+    tty: true
     env_file:
+      - ./.env
       - ./.env-production
     ports:
       - "25565:25565"
