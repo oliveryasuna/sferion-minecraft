@@ -32,7 +32,14 @@ copy_atm9() {
 copy_assets() {
   echo "Copying assets..."
 
+  # Copy assets, but force overwrite specific config files
   cp -r --update=none /tmp/assets/* .
+
+  # Force overwrite JVM args to use our custom settings
+  if [ -f "/tmp/assets/user_jvm_args.txt" ]; then
+    cp -f /tmp/assets/user_jvm_args.txt .
+    echo "Overwrote user_jvm_args.txt with custom settings"
+  fi
 
   echo "Assets copied"
 }
