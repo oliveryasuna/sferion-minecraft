@@ -19,7 +19,7 @@ services:
           memory: 16G
 
   production:
-    image: ghcr.io/oliveryasuna/sferion-minecraft:0.0.5
+    image: ghcr.io/oliveryasuna/sferion-minecraft:0.0.6
     profiles:
       - production
     stdin_open: true
