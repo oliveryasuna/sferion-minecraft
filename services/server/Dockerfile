@@ -25,8 +25,8 @@ RUN curl -Lo "Server-Files-1.1.1.zip" "https://edge.forgecdn.net/files/7097/957/
     java -jar "$FORGE_INSTALLER" --installServer && \
     rm -f Server-Files-1.1.1.zip
 
-# Remove MrCrayfish's Furniture Mod (Legacy) because we're using the new one
-RUN rm -rf mods/cfm-forge-1.20.1-7.0.0-pre36.jar
+# # Remove MrCrayfish's Furniture Mod (Legacy) because we're using the new one
+# RUN rm -rf mods/cfm-forge-1.20.1-7.0.0-pre36.jar
 
 
 #==================================================
