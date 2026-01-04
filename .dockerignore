@@ -43,4 +43,7 @@ Thumbs.db
 # Miscellaneous
 #==================================================
 
+Makefile
+/server/
+
 *git-ignore*

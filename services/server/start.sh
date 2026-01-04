@@ -74,9 +74,16 @@ update_server_properties() {
   PROPS=()
   while IFS='=' read -r name value; do
     if [[ "$name" =~ ^MC_SERVER_PROP__(.+)$ ]]; then
-      # Extract key and convert underscores to dashes
+      # Extract key and convert:
+      # - Double underscores (__) to dots (.)
+      # - Single underscores (_) to dashes (-)
       key="${BASH_REMATCH[1]}"
+      # First replace __ with a placeholder to preserve them
+      key="${key//__/<<<DOT>>>}"
+      # Replace single _ with -
       key="${key//_/-}"
+      # Replace placeholder with .
+      key="${key//<<<DOT>>>/.}"
       PROPS+=("${key}=${value}")
     fi
   done < <(env)
@@ -121,8 +128,52 @@ run_server() {
   echo "Running server..."
 
   chmod 755 run.sh
-  ./run.sh
+
+  # Start server in background
+  ./run.sh &
+  SERVER_PID=$!
+
+  # Function to gracefully shutdown using RCON
+  shutdown() {
+    echo "Received shutdown signal, saving world via RCON..."
+
+    # Wait a moment for RCON to be available
+    sleep 2
+
+    # Send save-all command via RCON
+    mcrcon -H localhost -P 25575 -p "${MC_SERVER_PROP__rcon_password}" "save-all flush" 2>/dev/null || true
+    sleep 5
+
+    # Send stop command via RCON
+    mcrcon -H localhost -P 25575 -p "${MC_SERVER_PROP__rcon_password}" "stop" 2>/dev/null || true
+
+    # Wait up to 120 seconds for graceful shutdown
+    timeout=120
+    while kill -0 $SERVER_PID 2>/dev/null && [ $timeout -gt 0 ]; do
+      sleep 1
+      timeout=$((timeout - 1))
+    done
+
+    if kill -0 $SERVER_PID 2>/dev/null; then
+      echo "Server didn't stop gracefully, forcing shutdown..."
+      kill -KILL $SERVER_PID
+    else
+      echo "Server stopped gracefully"
+    fi
+
+    exit 0
+  }
+
+  # Trap SIGTERM and SIGINT
+  trap shutdown SIGTERM SIGINT
+
+  echo "Server started with PID $SERVER_PID"
+  echo "Waiting for signals..."
+
+  # Wait for server process
+  wait $SERVER_PID
 }
+
 
 check_eula
 copy_atm9

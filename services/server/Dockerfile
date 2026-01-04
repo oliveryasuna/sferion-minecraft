@@ -25,9 +25,6 @@ RUN curl -Lo "Server-Files-1.1.1.zip" "https://edge.forgecdn.net/files/7097/957/
     java -jar "$FORGE_INSTALLER" --installServer && \
     rm -f Server-Files-1.1.1.zip
 
-# # Remove MrCrayfish's Furniture Mod (Legacy) because we're using the new one
-# RUN rm -rf mods/cfm-forge-1.20.1-7.0.0-pre36.jar
-
 
 #==================================================
 # Runtime stage
@@ -38,6 +35,11 @@ FROM eclipse-temurin:17-jre
 # Install necessary packages
 RUN apt-get update && \
     apt-get install -y vim netcat-openbsd && \
+
+    # Install mcrcon for graceful shutdown
+    curl -L https://github.com/Tiiffi/mcrcon/releases/download/v0.7.2/mcrcon-0.7.2-linux-x86-64.tar.gz | \
+    tar -xz -C /usr/local/bin && \
+
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

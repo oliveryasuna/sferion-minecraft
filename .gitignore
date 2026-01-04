@@ -40,4 +40,7 @@
 
 .env*
 
+Makefile
+/server/
+
 *git-ignore*
